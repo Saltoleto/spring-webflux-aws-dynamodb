@@ -2,6 +2,21 @@ import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedAsyncClient
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional
 import java.time.LocalDate
 
+    QueryConditional queryConditional = QueryConditional.between(
+       Key.builder()
+               .partitionValue("suaChaveDeParticao")
+               .build(),
+       Key.builder()
+               .partitionValue("suaChaveDeParticao")
+               .sortValue(startDate) // Data de início
+               .build(),
+       Key.builder()
+               .partitionValue("suaChaveDeParticao")
+               .sortValue(endDate) // Data de término
+               .build()
+);
+
+
 // Crie um objeto DynamoDbEnhancedAsyncClient, substituindo com suas configurações
 val enhancedAsyncClient = DynamoDbEnhancedAsyncClient.builder().build()
 

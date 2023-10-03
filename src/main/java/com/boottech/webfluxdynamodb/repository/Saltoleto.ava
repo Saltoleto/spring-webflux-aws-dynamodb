@@ -1,0 +1,32 @@
+import org.mapstruct.Mapper;
+
+@Mapper
+public interface BillingManagementEntityMapper {
+
+    BillingManagementDTO entityToDTO(BillingManagementAggregationEntity entity);
+}
+
+
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
+
+@Mapper(uses = BillingManagementEntityMapper.class)
+public interface BillingManagementResponseMapper {
+
+    @Mappings({
+        @Mapping(target = "data", source = "entities", qualifiedByName = "entityToDTO"),
+        @Mapping(target = "pagination", source = "pagination")
+    })
+    BillingManagementResponseDTO responseToDTO(List<BillingManagementAggregationEntity> entities, PaginationDTO pagination);
+}
+
+///USE
+
+BillingManagementEntityMapper entityMapper = Mappers.getMapper(BillingManagementEntityMapper.class);
+BillingManagementResponseMapper responseMapper = Mappers.getMapper(BillingManagementResponseMapper.class);
+
+List<BillingManagementAggregationEntity> entityList = // Retrieve your entity list
+PaginationDTO pagination = // Populate your pagination DTO
+
+BillingManagementResponseDTO responseDTO = responseMapper.responseToDTO(entityList, pagination);
